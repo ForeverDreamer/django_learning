@@ -4,4 +4,9 @@ from .models import Game, Move
 
 # Register your models here.
 admin.site.register(Move)
-admin.site.register(Game)
+
+
+@admin.register(Game)
+class GameAdmin(admin.ModelAdmin):
+    list_display = ('id', 'first_player', 'second_player', 'status')
+    list_editable = ('status',)
