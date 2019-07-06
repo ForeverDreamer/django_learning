@@ -8,6 +8,7 @@ New Invitation
 {% block content %}
     <form method="post" action="{% url 'player_new_invitation' %}">
         {{ form }}
+        {% csrf_token %}
         <button type="submit">Send the invitation</button>
     </form>
 {% endblock %}
