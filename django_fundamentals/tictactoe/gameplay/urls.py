@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import game_detail, make_move
+from .views import game_detail, make_move, AllGamesList
 
 
 urlpatterns = [
@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'make_move/(?P<game_id>\d+)/',
         make_move,
         name="gameplay_make_move"),
+    url(r'all$', AllGamesList.as_view())
 ]
