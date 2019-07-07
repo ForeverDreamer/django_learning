@@ -12,6 +12,8 @@ GAME_STATUS_CHOICES = (
     ('D', 'Draw')
 )
 
+BOARD_SIZE = 3
+
 
 class GamesQuerySet(models.QuerySet):
     def games_for_user(self, user):
@@ -38,6 +40,14 @@ class Game(models.Model):
 
     objects = GamesQuerySet.as_manager()
 
+    def board(self):
+        """Return a 2-dimensional list of Move objects,
+        so you can ask for the state of a square at position [y][x]."""
+        board = [[None for x in range(BOARD_SIZE)] for y in range(BOARD_SIZE)]
+        for move in self.move_set.all():
+            board[move.y][move.x] = move
+        return board
+
     def get_absolute_url(self):
         return reverse('gameplay_detail', args=[self.id])
 
@@ -50,6 +60,5 @@ class Move(models.Model):
     x = models.IntegerField()
     y = models.IntegerField()
     comment = models.CharField(max_length=300, blank=True)
-    by_first_player = models.BooleanField()
-
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    game = models.ForeignKey(Game, editable=False, on_delete=models.CASCADE)
+    by_first_player = models.BooleanField(editable=False)
