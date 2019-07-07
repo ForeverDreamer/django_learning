@@ -39,9 +39,9 @@ def accept_invitation(request, inv_id):
         raise PermissionDenied
     if request.method == 'POST':
         if "accept" in request.POST:
-            Game.objects.create(first_player=invitation.to_user, second_player=invitation.from_user)
+            game = Game.objects.create(first_player=invitation.to_user, second_player=invitation.from_user)
         invitation.delete()
-        return redirect('player_home')
+        return redirect(game)
     else:
         return render(request,
                       "player/accept_invitation_form.html",
