@@ -44,7 +44,7 @@ class Game(models.Model):
     def board(self):
         """Return a 2-dimensional list of Move objects,
         so you can ask for the state of a square at position [y][x]."""
-        board = [[None for x in range(BOARD_SIZE)] for y in range(BOARD_SIZE)]
+        board = [[None for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
         for move in self.move_set.all():
             board[move.y][move.x] = move
         return board
@@ -62,6 +62,22 @@ class Game(models.Model):
             game=self,
             by_first_player=self.status == 'F'
         )
+
+    def update_after_move(self, move):
+        """Update the status of the game, given the last move."""
+        self.status = self._get_game_status_after_move(move)
+
+    def _get_game_status_after_move(self, move):
+        x, y = move.x, move.y
+        board = self.board()
+        if (move == board[y][0] == board[y][1] == board[y][2]) or \
+                (move == board[0][x] == board[1][x] == board[2][x]) or \
+                (move == board[0][0] == board[1][1] == board[2][2]) or \
+                (move == board[0][2] == board[1][1] == board[2][0]):
+            return "W" if move.by_first_player else "L"
+        if self.move_set.count() >= BOARD_SIZE ** 2:
+            return 'D'
+        return 'S' if self.status == 'F' else 'F'
 
     def get_absolute_url(self):
         return reverse('gameplay_detail', args=[self.id])
@@ -83,3 +99,13 @@ class Move(models.Model):
     comment = models.CharField(max_length=300, blank=True)
     game = models.ForeignKey(Game, editable=False, on_delete=models.CASCADE)
     by_first_player = models.BooleanField(editable=False)
+
+    def __eq__(self, other):
+        if other is None:
+            return False
+        return other.by_first_player == self.by_first_player
+
+    def save(self, *args, **kwargs):
+        super(Move, self).save(*args, **kwargs)
+        self.game.update_after_move(self)
+        self.game.save()
