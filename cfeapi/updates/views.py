@@ -49,13 +49,13 @@ class JsonCBV2(JsonResponseMixin, View):
 class SerializedDetailView(View):
     def get(self, request, *args, **kwargs):
         obj = Update.objects.get(id=1)
-        json_data = serialize('json', [obj, ], fields=('user', 'content'))
+        json_data = obj.serialize()
         return HttpResponse(json_data, content_type='application/json')
 
 
 class SerializedListView(View):
     def get(self, request, *args, **kwargs):
         qs = Update.objects.all()
-        json_data = serialize('json', qs, fields=('user', 'content'))
+        json_data = qs.serialize()
         return HttpResponse(json_data, content_type='application/json')
 
