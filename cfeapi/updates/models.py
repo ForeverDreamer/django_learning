@@ -12,7 +12,11 @@ def upload_update_image(instance, filename):
 class UpdateQuerySet(models.QuerySet):
     def serialize(self):
         qs = self
-        return serialize('json', qs, fields=('user', 'content', 'image'))
+        final_array = []
+        for obj in qs:
+            struct = json.loads(obj.serialize())
+            final_array.append(struct)
+        return json.dumps(final_array)
 
 
 class UpdateManager(models.Manager):
