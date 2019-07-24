@@ -5,3 +5,4 @@ Pillow
 djangorestframework
 django-filter
 Markdown
+requests
