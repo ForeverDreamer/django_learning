@@ -1,8 +1,7 @@
+import json
+
 from django.http import JsonResponse, HttpResponse
 from django.views.generic import View
-from django.core.serializers import serialize
-
-import json
 
 from cfeapi.mixins import JsonResponseMixin
 from .models import Update

@@ -27,7 +27,7 @@ def create_update():
         'user': 1,
         "content": "Another new cool content"
     }
-    r = requests.post(BASE_URL + ENDPOINT, data=json.dumps(new_data))
+    r = requests.post(BASE_URL + ENDPOINT + '1/', data=new_data)
     print(r.headers)
     print(r.status_code)
     if r.status_code == requests.codes.ok:
