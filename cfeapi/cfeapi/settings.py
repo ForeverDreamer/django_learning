@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# APPEND_TRAILING_SLASH = True
 
 # Application definition
 
