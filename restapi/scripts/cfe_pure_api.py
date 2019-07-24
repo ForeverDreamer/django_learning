@@ -35,7 +35,7 @@ def create_update():
     return r.text
 
 
-# print(create_update())
+print(create_update())
 
 
 def delete_update():
@@ -47,4 +47,4 @@ def delete_update():
     return r.text
 
 
-print(delete_update())
+# print(delete_update())
