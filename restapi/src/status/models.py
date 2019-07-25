@@ -2,7 +2,11 @@ from django.db import models
 from django.conf import settings
 
 
-# Create your models here.
+'''
+JSON -- JavaScript Object Notation
+'''
+
+
 def upload_status_image(instance, filename):
     return "status/{user}/{filename}".format(user=instance.user, filename=filename)
 
