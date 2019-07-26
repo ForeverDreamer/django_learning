@@ -4,14 +4,15 @@ from .views import (
     # StatusListSearchAPIView,
     StatusAPIView,
     StatusCreateAPIView,
+    StatusDetailAPIView,
 )
 
 
 urlpatterns = [
     # url(r'^$', StatusListSearchAPIView.as_view()),
     url(r'^$', StatusAPIView.as_view()),
-    url(r'create/$', StatusCreateAPIView.as_view()),
-    # url(r'^(?P<id>\d+)/$', StatusAPIDetailView.as_view()),
+    url(r'^create/$', StatusCreateAPIView.as_view()),
+    url(r'^(?P<pk>\d+)/$', StatusDetailAPIView.as_view()),
     # url(r'^(?P<id>\d+)/update/$', StatusAPIDetailView.as_view()),
     # url(r'^(?P<id>\d+)/delete/$', StatusAPIDetailView.as_view()),
 ]
