@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', json_example_view),
     url(r'^api/updates/', include('updates.api.urls')),  # api/updates/ --> list api/updates/1/ --> detail
+    url(r'^api/status/', include('status.api.urls'))
 ]
