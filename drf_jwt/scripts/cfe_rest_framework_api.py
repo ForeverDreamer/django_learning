@@ -44,7 +44,7 @@ def get_token():
     return token
 
 
-get_token()
+# get_token()
 
 
 def refresh_token():
@@ -86,3 +86,36 @@ def create_status():
 
 
 # create_status()
+
+
+def auth():
+    headers = {
+        "Content-Type": "application/json",
+    }
+    data = {
+        'username': 'admin@example.com',
+        'password': 'password123'
+    }
+    r = requests.post(AUTH_ENDPOINT, data=json.dumps(data), headers=headers)
+    print(r.json())
+
+
+# auth()
+
+
+def register():
+    headers = {
+        "Content-Type": "application/json",
+        # "Authorization": "JWT" + ' ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNTY0MzEwMzI4LCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwib3JpZ19pYXQiOjE1NjQzMTAwMjh9.TI4Xa-csIUVPZwwXd7r6IjHXtdo2LpKpFWTZzpT1lmM",
+    }
+    data = {
+        'username': 'apple',
+        'email': 'apple@163.com',
+        'password1': 'password123',
+        'password2': 'password123',
+    }
+    r = requests.post(AUTH_ENDPOINT + "register/", data=json.dumps(data), headers=headers)
+    print(r.json())
+
+
+register()
