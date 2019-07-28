@@ -3,7 +3,7 @@ import json
 import requests
 
 
-AUTH_ENDPOINT = "http://127.0.0.1:8000/api/auth/jwt/"
+AUTH_ENDPOINT = "http://127.0.0.1:8000/api/auth/"
 REFRESH_ENDPOINT = AUTH_ENDPOINT + "refresh/"
 ENDPOINT = "http://127.0.0.1:8000/api/status/"
 IMAGE_PATH = os.path.join(os.getcwd(), "logo.jpg")
@@ -40,11 +40,11 @@ def get_token():
     }
     r = requests.post(AUTH_ENDPOINT, data=json.dumps(data), headers=headers)
     token = r.json()['token']
-    # print(token)
+    print(r.json())
     return token
 
 
-# get_token()
+get_token()
 
 
 def refresh_token():
@@ -85,4 +85,4 @@ def create_status():
         print(post_response.text)
 
 
-create_status()
+# create_status()
