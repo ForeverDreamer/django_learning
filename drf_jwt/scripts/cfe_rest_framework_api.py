@@ -107,10 +107,11 @@ def auth():
 def register():
     headers = {
         "Content-Type": "application/json",
+        "Authorization": "JWT" + ' ' + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxNCwidXNlcm5hbWUiOiJjZmU4IiwiZXhwIjoxNTY0MzcxMjY4LCJlbWFpbCI6ImNmZThAMTYzLmNvbSIsIm9yaWdfaWF0IjoxNTY0MzcwOTY4fQ.9_VKbpqR0TAN5_RGZEGIGv-yvdxRFOEo8toC7Omx4yE"
     }
     data = {
-        'username': 'cfe7',
-        'email': 'cfe7@163.com',
+        'username': 'cfe8',
+        'email': 'cfe8@163.com',
         'password': 'password123',
         'password2': 'password123',
     }
