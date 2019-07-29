@@ -109,8 +109,8 @@ def register():
         "Content-Type": "application/json",
     }
     data = {
-        'username': 'mocro2',
-        'email': 'mocro2@163.com',
+        'username': 'cfe4',
+        'email': 'cf43@163.com',
         'password': 'password123',
         'password2': 'password123',
     }
