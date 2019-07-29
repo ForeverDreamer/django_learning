@@ -2,6 +2,7 @@ from rest_framework import generics, mixins, permissions
 
 from status.models import Status
 from .serializers import StatusSerializer
+from accounts.api.permissions import IsOwnerOrReadOnly
 
 
 class StatusAPIDetailView(
@@ -9,7 +10,7 @@ class StatusAPIDetailView(
     mixins.DestroyModelMixin,
     generics.RetrieveAPIView
 ):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     serializer_class = StatusSerializer
     queryset = Status.objects.all()
     lookup_field = 'id'

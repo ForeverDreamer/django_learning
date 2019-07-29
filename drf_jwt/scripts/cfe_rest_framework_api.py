@@ -119,4 +119,22 @@ def register():
     print(r.json())
 
 
-register()
+# register()
+
+
+def do_update():
+    headers = {
+        "Authorization": "JWT" + ' ' + get_token()
+    }
+    data = {
+        'content': 'this new content post',
+    }
+    with open(IMAGE_PATH, 'rb') as image:
+        file_data = {
+            'image': image
+        }
+        r = requests.put(ENDPOINT + "5/", headers=headers, data=data, files=file_data)
+        print(r.text)
+
+
+do_update()
