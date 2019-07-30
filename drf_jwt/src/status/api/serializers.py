@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.reverse import reverse as api_reverse
 
 from status.models import Status
 from accounts.api.serializers import UserPublicSerializer
@@ -8,22 +9,6 @@ Serializers -> JSON
 Serializers -> validate data
 
 '''
-
-
-class StatusInlineUserSerializer(serializers.ModelSerializer):
-    uri = serializers.SerializerMethodField(read_only=True)
-
-    class Meta:
-        model = Status
-        fields =[
-            'uri',
-            'id',
-            'content',
-            'image'
-        ]
-
-    def get_uri(self, obj):
-        return "/api/status/{id}/".format(id=obj.id)
 
 
 class StatusSerializer(serializers.ModelSerializer):
@@ -48,7 +33,8 @@ class StatusSerializer(serializers.ModelSerializer):
     #     return value
 
     def get_uri(self, obj):
-        return "/api/status/{id}/".format(id=obj.id)
+        request = self.context.get('request')
+        return api_reverse('api-status:detail', kwargs={"id": obj.id}, request=request)
 
     def validate(self, data):
         content = data.get("content", None)
@@ -60,3 +46,18 @@ class StatusSerializer(serializers.ModelSerializer):
         return data
 
 
+class StatusInlineUserSerializer(StatusSerializer):
+    # uri = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Status
+        fields = [
+            'uri',
+            'id',
+            'content',
+            'image'
+        ]
+
+    # def get_uri(self, obj):
+    #     request = self.context.get('request')
+    #     return api_reverse('api-status:detail', kwargs={"id": obj.id}, request=request)

@@ -8,5 +8,5 @@ from .views import (
 
 urlpatterns = [
     url(r'^$', StatusAPIView.as_view()),
-    url(r'^(?P<id>\d+)/$', StatusAPIDetailView.as_view()),  # api/status/12/
+    url(r'^(?P<id>\d+)/$', StatusAPIDetailView.as_view(), name='detail'),  # api/status/12/
 ]
