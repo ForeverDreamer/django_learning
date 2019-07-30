@@ -1,4 +1,4 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, pagination
 
 from django.contrib.auth import get_user_model
 
@@ -20,8 +20,12 @@ class UserDetailAPIView(generics.RetrieveAPIView):
         return {'request': self.request}
 
 
+
+
+
 class UserStatusAPIView(generics.ListAPIView):
     serializer_class = StatusInlineUserSerializer
+    # pagination_class = CFEAPIPagination
 
     def get_queryset(self, *args, **kwargs):
         username = self.kwargs.get("username", None)
