@@ -14,14 +14,14 @@ Serializers -> validate data
 class StatusSerializer(serializers.ModelSerializer):
 
     user = UserPublicSerializer(read_only=True)
-    userid = serializers.PrimaryKeyRelatedField(source='user', read_only=True)
-    user_id = serializers.HyperlinkedRelatedField(
-        source='user',  # user foreign key
-        lookup_field='username',
-        view_name='api-user:detail',
-        read_only=True
-    )
-    email = serializers.SlugRelatedField(source='user', read_only=True, slug_field='email')
+    # userid = serializers.PrimaryKeyRelatedField(source='user', read_only=True)
+    # user_id = serializers.HyperlinkedRelatedField(
+    #     source='user',  # user foreign key
+    #     lookup_field='username',
+    #     view_name='api-user:detail',
+    #     read_only=True
+    # )
+    # email = serializers.SlugRelatedField(source='user', read_only=True, slug_field='email')
     uri = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -29,9 +29,9 @@ class StatusSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'user',
-            'userid',
-            'user_id',
-            'email',
+            # 'userid',
+            # 'user_id',
+            # 'email',
             'content',
             'image',
             'uri'

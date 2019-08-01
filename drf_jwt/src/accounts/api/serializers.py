@@ -17,6 +17,7 @@ User = get_user_model()
 
 class UserPublicSerializer(serializers.ModelSerializer):
     uri = serializers.SerializerMethodField(read_only=True)
+    displayName = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
@@ -24,11 +25,15 @@ class UserPublicSerializer(serializers.ModelSerializer):
             'id',
             'username',
             'uri',
+            'displayName',
         ]
 
     def get_uri(self, obj):
         request = self.context.get('request')
         return api_reverse("api-user:detail", kwargs={"username": obj.username}, request=request)
+
+    def get_displayName(self, obj):
+        return obj.username
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -38,10 +43,13 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     expires = serializers.SerializerMethodField(read_only=True)
     # token_response = serializers.SerializerMethodField(read_only=True)
     message = serializers.SerializerMethodField(read_only=True)
+    uri = serializers.SerializerMethodField(read_only=True)
+    displayName = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
         fields = [
+            'id',
             'username',
             'email',
             'password',
@@ -50,6 +58,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             'expires',
             # 'token_response',
             'message',
+            'uri',
+            'displayName',
         ]
         extra_kwargs = {'password': {'write_only': True}}
 
@@ -102,5 +112,12 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     def get_message(self, obj):
         return "Thank you for registering. Please verify your email before continuing."
+
+    def get_uri(self, obj):
+        request = self.context.get('request')
+        return api_reverse("api-user:detail", kwargs={"username": obj.username}, request=request)
+
+    def get_displayName(self, obj):
+        return obj.username
 
 
