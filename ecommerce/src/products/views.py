@@ -7,13 +7,17 @@ from .models import Product
 
 # Create your views here.
 class ProductListView(ListView):
-    queryset = Product.objects.all()
+    # queryset = Product.objects.all()
     template_name = "products/list.html"
 
     def get_context_data(self, *args, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
         print(context)
         return context
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        return Product.objects.all()
 
 
 def product_list_view(request):
@@ -34,11 +38,22 @@ class ProductDetailView(DetailView):
         print(context)
         return context
 
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get('pk')
+        obj = Product.objects.get_by_id(pk)
+        if obj is None:
+            raise Http404("Product doesn't exist")
+        return obj
+
+    # def get_queryset(self):
+    #     pk = self.kwargs.get('pk')
+    #     return Product.objects.filter(pk=pk)
+
 
 def product_detail_view(request, pk, *arg, **kwargs):
     # obj = Product.objects.get(pk=pk)
 
-    obj = get_object_or_404(Product, pk=pk)
+    # obj = get_object_or_404(Product, pk=pk)
 
     # try:
     #     obj = Product.objects.get(id=pk)
@@ -53,6 +68,10 @@ def product_detail_view(request, pk, *arg, **kwargs):
     #     obj = qs.first()
     # else:
     #     raise Http404("Product doesn't exist")
+
+    obj = Product.objects.get_by_id(pk)
+    if obj is None:
+        raise Http404("Product doesn't exist")
 
     context = {
         'object': obj
