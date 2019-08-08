@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
+from django.http import Http404
 
 from .models import Product
 
@@ -36,7 +37,23 @@ class ProductDetailView(DetailView):
 
 def product_detail_view(request, pk, *arg, **kwargs):
     # obj = Product.objects.get(pk=pk)
+
     obj = get_object_or_404(Product, pk=pk)
+
+    # try:
+    #     obj = Product.objects.get(id=pk)
+    # except Product.DoesNotExist:
+    #     print('no product here')
+    #     raise Http404("Product doesn't exist")
+    # except:
+    #     print("huh?")
+
+    # qs = Product.objects.filter(id=pk)
+    # if qs.exists() and qs.count() == 1:  # len(qs)
+    #     obj = qs.first()
+    # else:
+    #     raise Http404("Product doesn't exist")
+
     context = {
         'object': obj
     }
