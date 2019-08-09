@@ -17,6 +17,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.views.generic import TemplateView
 
 from .views import (
     home_page,
@@ -28,6 +29,7 @@ from .views import (
 
 urlpatterns = [
     url(r'^$', home_page, name='home'),
+    url(r'^bootstrap/$', TemplateView.as_view(template_name='bootstrap/example.html')),
     url(r'^admin/', admin.site.urls),
     url(r'^about/$', about_page, name='about'),
     url(r'^contact/$', contact_page, name='contact'),
