@@ -4,7 +4,14 @@ from products.models import Product
 
 
 class SearchProductView(ListView):
-    template_name = "products/list.html"
+    template_name = "search/view.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(SearchProductView, self).get_context_data(**kwargs)
+        query = self.request.GET.get('q')
+        context['query'] = query
+        # SearchQuery.objects.create(query=query)
+        return context
 
     def get_queryset(self):
         """
