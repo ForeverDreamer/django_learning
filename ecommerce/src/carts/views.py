@@ -5,20 +5,6 @@ from .models import Cart
 
 
 def cart_home(request):
-    cart_id = request.session.get('cart_id', None)
-    if cart_id is None:
-        cart_obj = Cart.objects.new(request.user)
-        request.session['cart_id'] = cart_obj.id
-        return render(request, "carts/home.html", {})
-
-    qs = Cart.objects.filter(id=cart_id)
-    if qs.count() == 1:
-        cart_obj = qs.first()
-        if request.user.is_authenticated() and cart_obj.user is None:
-            cart_obj.user = request.user
-            cart_obj.save()
-    else:
-        cart_obj = Cart.objects.new(request.user)
-        request.session['cart_id'] = cart_obj.id
+    cart_obj, new_obj = Cart.objects.new_or_get(request)
 
     return render(request, "carts/home.html", {})
