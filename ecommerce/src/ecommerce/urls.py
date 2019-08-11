@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'^register/$', register_page, name='register'),
     url(r'^products/', include('products.urls', namespace='products')),
     url(r'^search/', include('search.urls', namespace='search')),
+    url(r'^cart/', include("carts.urls", namespace='cart')),
 ]
 
 if settings.DEBUG:
