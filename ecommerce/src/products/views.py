@@ -27,7 +27,7 @@ class ProductListView(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
-        print(context)
+        # print(context)
         return context
 
     def get_queryset(self):
