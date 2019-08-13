@@ -51,11 +51,11 @@ class Cart(models.Model):
 def m2m_changed_cart_receiver(sender, instance, action, *args, **kwargs):
     if action == 'post_add' or action == 'post_remove' or action == 'post_clear':
         products = instance.products.all()
-        total = 0
+        subtotal = 0
         for x in products:
-            total += x.price
-        if instance.subtotal != total:
-            instance.subtotal = total
+            subtotal += x.price
+        if instance.subtotal != subtotal:
+            instance.subtotal = subtotal
             instance.save()
 
 

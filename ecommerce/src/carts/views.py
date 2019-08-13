@@ -7,7 +7,9 @@ from products.models import Product
 
 def cart_home(request):
     cart_obj, new_obj = Cart.objects.new_or_get(request)
-    return render(request, "carts/home.html", {})
+    return render(request, "carts/home.html", {
+        'cart': cart_obj
+    })
 
 
 def cart_update(request):
@@ -27,5 +29,5 @@ def cart_update(request):
             cart_obj.products.add(product_obj)  # cart_obj.products.add(product_id)
 
     # return redirect(product_obj.get_absolute_url())
-    return redirect("products:list")
+    return redirect("cart:home")
 
