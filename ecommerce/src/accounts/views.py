@@ -19,7 +19,7 @@ def guest_register_view(request):
         print(form.cleaned_data)
         email = form.cleaned_data.get('email')
         new_guest_email = GuestEmail.objects.create(email=email)
-        request.session['guest_email_id'] = new_guest_email
+        request.session['guest_email_id'] = new_guest_email.email
         if is_safe_url(redirect_path, request.get_host()):
             return redirect(redirect_path)
         else:
@@ -46,6 +46,10 @@ def login_page(request):
         if user is not None:
             print("User logged in: ", request.user.is_authenticated())
             login(request, user)
+            try:
+                del request.session['guest_email_id']
+            except:
+                pass
             # Redirect to a success page.
             # context['form'] = LoginForm()
             if is_safe_url(redirect_path, request.get_host()):
