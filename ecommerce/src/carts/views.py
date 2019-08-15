@@ -22,11 +22,11 @@ def cart_update(request):
     product_id = request.POST.get('product_id')
     if product_id is not None:
         try:
-            Product.objects.get(id=product_id)
+            product_obj = Product.objects.get(id=product_id)
         except Product.DoesNotExist:
             print("Show message to user, product is gone?")
             return redirect("cart:home")
-        product_obj = Product.objects.get(id=product_id)
+        # product_obj = Product.objects.get(id=product_id)
         cart_obj, new_obj = Cart.objects.new_or_get(request)
         if product_obj in cart_obj.products.all():
             cart_obj.products.remove(product_obj)
@@ -63,6 +63,15 @@ def checkout_home(request):
             del request.session["billing_address_id"]
         if billing_address_id or shipping_address_id:
             order_obj.save()
+
+    if request.method == "POST":
+        "check that order is done"
+        is_done = order_obj.check_done()
+        if is_done:
+            order_obj.mark_paid()
+            request.session['cart_items'] = 0
+            del request.session['cart_id']
+            return redirect('/cart/success')
 
     context = {
         'order': order_obj,
