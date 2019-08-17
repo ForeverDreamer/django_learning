@@ -53,7 +53,7 @@ class User(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'  # username
     # USERNAME_FIELD and password are required by default
-    REQUIRED_FIELDS = []  # ['full_name'] # python manage.py createsuperuser
+    REQUIRED_FIELDS = []  # ['full_name']  # python manage.py createsuperuser
 
     objects = UserManager()
 
@@ -61,6 +61,8 @@ class User(AbstractBaseUser):
         return self.email
 
     def get_full_name(self):
+        if self.full_name:
+            return self.full_name
         return self.email
 
     def get_short_name(self):
