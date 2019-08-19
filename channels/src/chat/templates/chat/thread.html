@@ -1,18 +1,46 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h3>Thread for {% if user != object.first %}{{ object.first }}{% else %}{{ object.second }}{% endif %}</h3>
+<h3>Thread for {% if user != object.first %}{{ object.first }}{% else %}{{ object.second }}{% endif %}</h3>
 
-    <ul>
-        {% for chat in object.chatmessage_set.all %}
+<ul>
+    {% for chat in object.chatmessage_set.all %}
 
-        <li>{{ chat.message }} via {{ chat.user }}</li>
+    <li>{{ chat.message }} via {{ chat.user }}</li>
 
-        {% endfor %}
-    </ul>
+    {% endfor %}
+</ul>
 
-    <form id='form' method='POST'> {% csrf_token %}
-        {{form.as_p }}
-        <input type='submit' class='btn btn-primary'/>
-    </form>
+<form id='form' method='POST'> {% csrf_token %}
+    {{form.as_p }}
+    <input type='submit' class='btn btn-primary'/>
+</form>
+{% endblock %}
+
+{% block script %}
+<script>
+    const loc = window.location;
+    let wsStart = "ws://";
+    if (loc.protocol === "https:"){
+        wsStart = "wss://"
+    }
+    let webSocketEndpoint =  wsStart + loc.host + '/chat/';  // ws : wss
+    let socket = new WebSocket(webSocketEndpoint);
+
+    socket.onmessage = function (e) {
+            console.log('message', e)
+        };
+
+        socket.onopen = function (e) {
+            console.log('open', e)
+        };
+
+        socket.onerror = function (e) {
+            console.log('error', e)
+        };
+
+        socket.onclose = function (e) {
+            console.log('closed', e)
+        };
+</script>
 {% endblock %}
