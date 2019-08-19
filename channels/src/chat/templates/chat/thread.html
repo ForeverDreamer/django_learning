@@ -21,26 +21,27 @@
 <script>
     const loc = window.location;
     let wsStart = "ws://";
-    if (loc.protocol === "https:"){
+    if (loc.protocol === "https:") {
         wsStart = "wss://"
     }
-    let webSocketEndpoint =  wsStart + loc.host + '/chat/';  // ws : wss
+    let webSocketEndpoint = wsStart + loc.host + '/chat/';  // ws : wss
     let socket = new WebSocket(webSocketEndpoint);
 
     socket.onmessage = function (e) {
-            console.log('message', e)
-        };
+        console.log('message', e);
+        console.log(e.data);
+    };
 
-        socket.onopen = function (e) {
-            console.log('open', e)
-        };
+    socket.onopen = function (e) {
+        console.log('open', e)
+    };
 
-        socket.onerror = function (e) {
-            console.log('error', e)
-        };
+    socket.onerror = function (e) {
+        console.log('error', e)
+    };
 
-        socket.onclose = function (e) {
-            console.log('closed', e)
-        };
+    socket.onclose = function (e) {
+        console.log('closed', e)
+    };
 </script>
 {% endblock %}
