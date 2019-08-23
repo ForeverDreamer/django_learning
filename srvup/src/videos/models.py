@@ -8,6 +8,8 @@ class Video(models.Model):
     title = models.CharField(max_length=120)
     slug = models.SlugField(blank=True)
     embed_code = models.TextField()
+    free = models.BooleanField(default=True)
+    member_required = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)  # time created
     updated = models.DateTimeField(auto_now=True)  # last saved
 

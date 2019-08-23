@@ -10,6 +10,7 @@ from django.views.generic import (
 
 from .models import Video
 from .forms import VideoForm
+from .mixins import MemberRequiredMixin, StaffMemberRequiredMixin
 
 
 class VideoListView(ListView):
@@ -28,27 +29,22 @@ class VideoListView(ListView):
         return context
 
 
-class VideoCreateView(CreateView):
+class VideoCreateView(StaffMemberRequiredMixin, CreateView):
     model = Video
     form_class = VideoForm
     # success_url = '/success/'
 
 
-class VideoDetailView(DetailView):
+class VideoDetailView(MemberRequiredMixin, DetailView):
     queryset = Video.objects.all()
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(VideoDetailView, self).get_context_data(*args, **kwargs)
-        print(context)
-        return context
 
-
-class VideoUpdateView(UpdateView):
+class VideoUpdateView(StaffMemberRequiredMixin, UpdateView):
     queryset = Video.objects.all()
     form_class = VideoForm
 
 
-class VideoDeleteView(DeleteView):
+class VideoDeleteView(StaffMemberRequiredMixin, DeleteView):
     queryset = Video.objects.all()
     success_url = '/videos/'
 
