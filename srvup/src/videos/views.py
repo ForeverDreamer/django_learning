@@ -12,7 +12,13 @@ from .models import Video
 
 
 class VideoListView(ListView):
-    queryset = Video.objects.all()
+    def get_queryset(self):
+        request = self.request
+        qs = Video.objects.all()
+        query = request.GET.get('q')
+        if query:
+            qs = qs.filter(title__icontains=query)
+        return qs
 
     def get_context_data(self, *args, **kwargs):
         context = super(VideoListView, self).get_context_data(*args, **kwargs)
