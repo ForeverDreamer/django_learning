@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import pre_save
+from django.utils.text import slugify
 
 
 class Video(models.Model):
@@ -13,3 +15,11 @@ class Video(models.Model):
 
     def __str__(self):
         return self.title
+
+
+def pre_save_video_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.title)
+
+
+pre_save.connect(pre_save_video_receiver, sender=Video)
