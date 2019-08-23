@@ -4,10 +4,11 @@
 
 {% block content %}
     <h1>Hi</h1>
+    {% include 'videos/snippets/video-search-form.html' with request=request %}
 
-    {{ object_list }}
-
-    {{ random_number }}
+    {% if request.GET.q %}
+        <p>You searched for <b>{{ request.GET.q }}</b></p>
+    {% endif %}
 
     <ul>
         {% for item in object_list %}

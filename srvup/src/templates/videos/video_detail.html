@@ -4,6 +4,7 @@
 
 {% block content %}
     <h1>Hi</h1>
+    {% include 'videos/snippets/video-search-form.html' with request=request %}
 
     {{ object.title }}
     {{ object.embed_code|safe }}
