@@ -9,6 +9,7 @@ from django.views.generic import (
     )
 
 from .models import Video
+from .forms import VideoForm
 
 
 class VideoListView(ListView):
@@ -28,7 +29,8 @@ class VideoListView(ListView):
 
 
 class VideoCreateView(CreateView):
-    queryset = Video.objects.all()
+    model = Video
+    form_class = VideoForm
 
 
 class VideoDetailView(DetailView):
