@@ -20,7 +20,7 @@ class HomeView(View):
             'name': 'Justin',
             'random_number': random.randint(500, 1000)
         }
-        return render(request, 'base/home.html', context)
+        return render(request, 'home.html', context)
 
     # def post(self, request, *args, **kwargs):  # POST -- create view
     #     return HttpResponse('Hello')
