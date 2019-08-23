@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
+from django.urls import reverse
 
 
 class Video(models.Model):
@@ -15,6 +16,10 @@ class Video(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        # return "/videos/{slug_arg}/".format(slug_arg=self.slug)
+        return reverse("video-detail", kwargs={"slug": self.slug})
 
 
 def pre_save_video_receiver(sender, instance, *args, **kwargs):

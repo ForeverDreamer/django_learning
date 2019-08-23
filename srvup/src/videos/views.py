@@ -31,6 +31,7 @@ class VideoListView(ListView):
 class VideoCreateView(CreateView):
     model = Video
     form_class = VideoForm
+    # success_url = '/success/'
 
 
 class VideoDetailView(DetailView):
