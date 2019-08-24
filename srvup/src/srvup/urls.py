@@ -23,7 +23,8 @@ from .views import HomeView
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
-    path('videos/', include('videos.urls')),
+    path('videos/', include(('videos.urls', 'videos'), namespace='videos')),
+    path('courses/', include(('courses.urls', 'courses'), namespace='courses')),
 ]
 
 if settings.DEBUG:
