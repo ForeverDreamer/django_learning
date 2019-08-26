@@ -1,4 +1,5 @@
 import random
+from django.http import Http404
 
 from django.views.generic import (
         ListView,
@@ -42,6 +43,23 @@ class CourseCreateView(StaffMemberRequiredMixin, CreateView):
 
 class CourseDetailView(MemberRequiredMixin, DetailView):
     queryset = Course.objects.all()
+
+    def get_object(self, queryset=None):
+        slug = self.kwargs.get('slug')
+        # obj = Course.objects.get(slug=slug)  # 1 or 0; > 1 MultipleObjectsReturned
+        qs = Course.objects.filter(slug=slug)
+        if qs.exists():
+            return qs.first()
+        raise Http404
+        # try:
+        #     obj = Course.objects.get(slug=slug)
+        # except Course.MultipleObjectsReturned:
+        #     qs = Course.objects.filter(slug=slug)
+        #     if qs.exists():
+        #         obj = qs.first()
+        # except:
+        #     raise Http404
+        # return obj
 
 
 class CourseUpdateView(StaffMemberRequiredMixin, UpdateView):
