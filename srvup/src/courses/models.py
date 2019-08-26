@@ -25,6 +25,8 @@ class Course(models.Model):
 
 class Lecture(models.Model):
     course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True)
+    # video = models.ForeignKey(Video, limit_choices_to={'lecture__isnull': True, 'title__icontains': "Something"},
+    # on_delete=models.SET_NULL, null=True)
     video = models.ForeignKey(Video, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=120)
     slug = models.SlugField(blank=True, unique=True)

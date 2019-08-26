@@ -1,11 +1,14 @@
 from django.contrib import admin
 
 from .models import Course, Lecture
+from .forms import LectureAdminForm
 
 
 class LectureInline(admin.TabularInline):
     model = Lecture
+    form = LectureAdminForm
     prepopulated_fields = {"slug": ("title",)}
+    # raw_id_fields = ['video']
     extra = 1
 
 
