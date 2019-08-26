@@ -35,6 +35,9 @@ class Lecture(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        unique_together = (('slug', 'course'),)
+
 
 def pre_save_video_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
