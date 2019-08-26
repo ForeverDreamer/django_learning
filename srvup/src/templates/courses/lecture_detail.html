@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Lectures | {{ block.super }}{% endblock title %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <h1>Hi</h1>
+            {% include 'videos/snippets/video-search-form.html' with request=request %}
+
+            {{ object.title }}<br/>
+            {{ object.video.embed_code|safe }}
+            {{ object.updated }}
+            {{ object.id }}
+        </div>
+    </div>
+
+{% endblock content %}

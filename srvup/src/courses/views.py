@@ -1,5 +1,6 @@
 import random
 from django.http import Http404
+from django.shortcuts import get_object_or_404
 
 from django.views.generic import (
         ListView,
@@ -9,9 +10,23 @@ from django.views.generic import (
         DeleteView,
     )
 
-from .models import Course
+from .models import Course, Lecture
 from .forms import CourseForm
 from videos.mixins import MemberRequiredMixin, StaffMemberRequiredMixin
+
+
+class LectureDetailView(MemberRequiredMixin, DetailView):
+    def get_object(self, queryset=None):
+        course_slug = self.kwargs.get('cslug')
+        lecture_slug = self.kwargs.get('lslug')
+        # 实现方式1
+        obj = get_object_or_404(Lecture, course__slug=course_slug, slug=lecture_slug)
+        # 实现方式2
+        # course_obj = Course.objects.get(slug=course_slug)
+        # obj = Lecture.objects.get(course=course_obj, slug=lecture_slug)
+        # 实现方式3
+        # obj = Lecture.objects.filter(course__slug=course_slug, slug=lecture_slug).first()
+        return obj
 
 
 class CourseListView(ListView):
@@ -85,6 +100,3 @@ class CourseUpdateView(StaffMemberRequiredMixin, UpdateView):
 class CourseDeleteView(StaffMemberRequiredMixin, DeleteView):
     queryset = Course.objects.all()
     success_url = '/videos/'
-
-
-
