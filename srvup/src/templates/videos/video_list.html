@@ -3,16 +3,21 @@
 {% block title %}Videos | {{ block.super }}{% endblock title %}
 
 {% block content %}
-    <h1>Hi</h1>
-    {% include 'videos/snippets/video-search-form.html' with request=request %}
+<div class='row'>
+    <div class='8 col-sm-offset-2'>
+        <h1>Hi</h1>
+        {% include 'videos/snippets/video-search-form.html' with request=request %}
 
-    {% if request.GET.q %}
+        {% if request.GET.q %}
         <p>You searched for <b>{{ request.GET.q }}</b></p>
-    {% endif %}
+        {% endif %}
 
-    <ul>
-        {% for item in object_list %}
+        <ul>
+            {% for item in object_list %}
             <li><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></li>
-        {% endfor %}
-    </ul>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
 {% endblock content %}
