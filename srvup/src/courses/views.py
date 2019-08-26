@@ -73,6 +73,14 @@ class CourseUpdateView(StaffMemberRequiredMixin, UpdateView):
         obj.save()
         return super(CourseUpdateView, self).form_valid(form)
 
+    def get_object(self, queryset=None):
+        slug = self.kwargs.get('slug')
+        # obj = Course.objects.get(slug=slug)  # 1 or 0; > 1 MultipleObjectsReturned
+        qs = Course.objects.filter(slug=slug)
+        if qs.exists():
+            return qs.first()
+        raise Http404
+
 
 class CourseDeleteView(StaffMemberRequiredMixin, DeleteView):
     queryset = Course.objects.all()

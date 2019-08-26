@@ -3,10 +3,12 @@ from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.urls import reverse
 
+from courses.utils import create_slug
+
 
 class Video(models.Model):
     title = models.CharField(max_length=120)
-    slug = models.SlugField(blank=True)
+    slug = models.SlugField(blank=True, unique=True)
     embed_code = models.TextField()
     free = models.BooleanField(default=True)
     member_required = models.BooleanField(default=False)
@@ -26,7 +28,7 @@ class Video(models.Model):
 
 def pre_save_video_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
-        instance.slug = slugify(instance.title)
+        instance.slug = create_slug(instance)
 
 
 pre_save.connect(pre_save_video_receiver, sender=Video)
