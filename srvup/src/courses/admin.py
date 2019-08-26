@@ -15,9 +15,10 @@ class LectureInline(admin.TabularInline):
 class CourseAdmin(admin.ModelAdmin):
     inlines = [LectureInline]
     list_filter = ['updated', 'timestamp']
-    list_display = ['title', 'updated', 'timestamp']
+    list_display = ['title', 'category', 'updated', 'timestamp']
     readonly_fields = ['updated', 'timestamp', 'short_title']
     search_fields = ['title', 'description']
+    list_editable = ['category']
 
     class Meta:
         model = Course
