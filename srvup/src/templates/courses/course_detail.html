@@ -6,14 +6,11 @@
 
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
-            <h1>Hi</h1>
+            <h1>{{ object.title }}</h1>
             {% include 'videos/snippets/video-search-form.html' with request=request %}
 
-            {{ object.title }}
-            {{ object.embed_code|safe }}
-            {{ object.updated }}
-            {{ object.id }}
-
+            {{ object.description|linebreaks }}
+            {{ object.display_price }}
             <p>
                 <ul>
                     {% for item in object.lecture_set.all %}

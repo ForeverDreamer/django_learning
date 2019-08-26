@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db.models.signals import pre_save
 from django.urls import reverse
 
-from .utils import create_slug
+from .utils import create_slug, make_display_price
 from videos.models import Video
 from .fields import PositionField
 
@@ -29,6 +29,9 @@ class Course(models.Model):
 
     def get_absolute_url(self):
         return reverse("courses:detail", kwargs={"slug": self.slug})
+
+    def display_price(self):
+        return make_display_price(self.price)
 
 
 class Lecture(models.Model):

@@ -15,7 +15,7 @@
                 {% for item in object_list %}
                     <li>
                         <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
-                        <small>{{ item.lecture_set.count }} lectures</small>
+                        <small>{{ item.lecture_set.count }} lectures</small> | {{ item.display_price }}
                     </li>
                     {% empty %}
                         <li>No course found</li>
