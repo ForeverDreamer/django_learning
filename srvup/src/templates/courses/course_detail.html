@@ -10,7 +10,9 @@
             {% include 'videos/snippets/video-search-form.html' with request=request %}
 
             {{ object.description|linebreaks }}
-            {{ object.display_price }}
+            {% if not object.is_owner %}
+                {{ object.display_price }}
+            {% endif %}
             <p>
                 <ul>
                     {% for item in object.lecture_set.all %}

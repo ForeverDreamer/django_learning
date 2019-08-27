@@ -1,5 +1,5 @@
 import random
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 
 from django.views.generic import (
@@ -11,8 +11,8 @@ from django.views.generic import (
     )
 
 from .models import Course, Lecture
-from .forms import CourseForm
 from videos.mixins import MemberRequiredMixin, StaffMemberRequiredMixin
+from .forms import CourseForm
 
 
 class LectureDetailView(MemberRequiredMixin, DetailView):
@@ -34,15 +34,18 @@ class CourseListView(ListView):
         request = self.request
         qs = Course.objects.all()
         query = request.GET.get('q')
+        user = self.request.user
         if query:
             qs = qs.filter(title__icontains=query)
+        if user.is_authenticated:
+            qs = qs.owned(user)
         return qs
 
     def get_context_data(self, *args, **kwargs):
-        context = super(CourseListView, self).get_context_data(*args, **kwargs)
-        context['random_number'] = random.randint(100, 10000)
-        print(context)
-        return context
+            context = super(CourseListView, self).get_context_data(*args, **kwargs)
+            context['random_number'] = random.randint(100, 10000)
+            print(context)
+            return context
 
 
 class CourseCreateView(StaffMemberRequiredMixin, CreateView):
@@ -62,7 +65,7 @@ class CourseDetailView(MemberRequiredMixin, DetailView):
     def get_object(self, queryset=None):
         slug = self.kwargs.get('slug')
         # obj = Course.objects.get(slug=slug)  # 1 or 0; > 1 MultipleObjectsReturned
-        qs = Course.objects.filter(slug=slug)
+        qs = Course.objects.filter(slug=slug).owned(self.request.user)
         if qs.exists():
             return qs.first()
         raise Http404

@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.db.models.signals import pre_save, post_save
+from django.db.models import Prefetch, Q
 from django.urls import reverse
 
 from .utils import create_slug, make_display_price
@@ -35,6 +36,32 @@ def post_save_user_create(sender, instance, created, *args, **kwargs):
 post_save.connect(post_save_user_create, sender=settings.AUTH_USER_MODEL)
 
 
+class CourseQuerySet(models.query.QuerySet):
+    def active(self):
+        return self.filter(active=True)
+
+    def owned(self, user):
+        if user.is_authenticated:
+            qs = MyCourses.objects.filter(user=user)
+        else:
+            qs = MyCourses.objects.none()
+        return self.prefetch_related(
+            Prefetch('owned',
+                     queryset=qs,
+                     to_attr='is_owner'
+                     )
+        )
+
+
+class CourseManager(models.Manager):
+    def get_queryset(self):
+        return CourseQuerySet(self.model, using=self._db)
+
+    def all(self):
+        return self.get_queryset().all().active()
+        # return super(CourseManager, self).all()
+
+
 class Course(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
@@ -43,8 +70,11 @@ class Course(models.Model):
     # order = PositionField(collection='category')
     description = models.TextField()
     price = models.DecimalField(decimal_places=2, max_digits=100)
+    active = models.BooleanField(default=True)
     updated = models.DateTimeField(auto_now=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    objects = CourseManager()  # Course.objects.all()
 
     def __str__(self):
         return self.title
