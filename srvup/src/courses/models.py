@@ -7,11 +7,13 @@ from django.urls import reverse
 from .utils import create_slug, make_display_price
 from videos.models import Video
 from .fields import PositionField
+from categories.models import Category
 
-POS_CHOICES = (
-    ('main', 'Main'),
-    ('sec', 'Secondary'),
-)
+
+# POS_CHOICES = (
+#     ('main', 'Main'),
+#     ('sec', 'Secondary'),
+# )
 
 
 class MyCourses(models.Model):
@@ -66,7 +68,8 @@ class Course(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
     slug = models.SlugField(blank=True, unique=True)
-    category = models.CharField(max_length=120, choices=POS_CHOICES, default='main')
+    # category = models.CharField(max_length=120, choices=POS_CHOICES, default='main')
+    category = models.ForeignKey(Category, related_name='primary_category', null=True, blank=True, on_delete=models.SET_NULL)
     # order = PositionField(collection='category')
     description = models.TextField()
     price = models.DecimalField(decimal_places=2, max_digits=100)

@@ -16,7 +16,6 @@
                     <li>
                         <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
                         <small>{{ item.lecture_set.count }} lectures</small> |
-                        <br/>
                         {% if item.is_owner %}
                             Owned
                         {% else %}

@@ -10,6 +10,9 @@
             {% for item in object_list %}
                 <a href="{{ item.get_absolute_url }}" class="list-group-item">
                     {{ item.title }}
+                    {% if item.primary_category.all.exists %}
+                    <span class="badge">{{ item.primary_category.all.count }} Courses</span>
+                    {% endif %}
                 </a>
             {% endfor %}
         </div>
