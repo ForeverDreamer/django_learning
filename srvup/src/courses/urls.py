@@ -7,6 +7,7 @@ from .views import (
     CourseUpdateView,
     CourseDeleteView,
     LectureDetailView,
+    CoursePurchaseView,
 )
 
 urlpatterns = [
@@ -16,5 +17,6 @@ urlpatterns = [
     path('<str:slug>/', CourseDetailView.as_view(), name='detail'),
     path('<str:slug>/edit/', CourseUpdateView.as_view(), name='update'),
     path('<str:slug>/delete/', CourseDeleteView.as_view(), name='delete'),
+    path('<str:slug>/purchase/', CoursePurchaseView.as_view(), name='purchase'),
     path('<str:cslug>/<str:lslug>/', LectureDetailView.as_view(), name='lecture-detail'),
 ]

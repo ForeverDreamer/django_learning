@@ -85,6 +85,9 @@ class Course(models.Model):
     def display_price(self):
         return make_display_price(self.price)
 
+    def get_purchase_url(self):
+        return reverse("courses:purchase", kwargs={"slug": self.slug})
+
 
 class Lecture(models.Model):
     course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True)

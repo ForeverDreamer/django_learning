@@ -1,6 +1,7 @@
 import random
-from django.http import Http404, HttpResponse
-from django.shortcuts import get_object_or_404
+from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.views.generic import (
         ListView,
@@ -8,6 +9,7 @@ from django.views.generic import (
         DetailView,
         UpdateView,
         DeleteView,
+        RedirectView
     )
 
 from .models import Course, Lecture
@@ -78,6 +80,22 @@ class CourseDetailView(MemberRequiredMixin, DetailView):
         # except:
         #     raise Http404
         # return obj
+
+
+class CoursePurchaseView(LoginRequiredMixin, RedirectView):
+    permanent = False
+
+    def get_redirect_url(self, slug=None):
+        qs = Course.objects.filter(slug=slug).owned(self.request.user)
+        if qs.exists():
+            user = self.request.user
+            if user.is_authenticated:
+                my_courses = user.mycourses
+                # run transaction
+                # if transaction successful:
+                my_courses.courses.add(qs.first())
+            return qs.first().get_absolute_url()
+        return "/courses/"
 
 
 class CourseUpdateView(StaffMemberRequiredMixin, UpdateView):
