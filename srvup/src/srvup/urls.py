@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('videos/', include(('videos.urls', 'videos'), namespace='videos')),
     path('courses/', include(('courses.urls', 'courses'), namespace='courses')),
+    path('categories/', include(('categories.urls', 'categories'), namespace='categories')),
 ]
 
 if settings.DEBUG:
