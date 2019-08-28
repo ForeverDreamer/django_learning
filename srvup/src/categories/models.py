@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.db.models import Count
 
 from courses.utils import create_slug
+from videos.models import Video
 
 
 class CategoryQuerySet(models.query.QuerySet):
@@ -29,6 +30,7 @@ class CategoryManager(models.Manager):
 class Category(models.Model):
     title = models.CharField(max_length=120)
     slug = models.SlugField(blank=True, unique=True)
+    video = models.ForeignKey(Video, null=True, blank=True, on_delete=models.SET_NULL)
     description = models.TextField()
     active = models.BooleanField(default=True)
     updated = models.DateTimeField(auto_now=True)

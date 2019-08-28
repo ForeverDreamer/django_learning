@@ -12,5 +12,8 @@ class VideoAdmin(admin.ModelAdmin):
     class Meta:
         model = Video
 
+    def short_title(self, obj):
+        return obj.title[:3]
+
 
 admin.site.register(Video, VideoAdmin)

@@ -1,8 +1,25 @@
 from django.db import models
 from django.db.models.signals import pre_save
+from django.db.models import Q
 from django.urls import reverse
 
 from courses.utils import create_slug
+
+
+class VideoQuerySet(models.query.QuerySet):
+    def active(self):
+        return self.filter(active=True)
+
+    def unused(self):
+        return self.filter(Q(lecture__isnull=True) & Q(category__isnull=True))
+
+
+class VideoManager(models.Manager):
+    def get_queryset(self):
+        return VideoQuerySet(self.model, using=self._db)
+
+    def all(self):
+        return self.get_queryset().all()
 
 
 class Video(models.Model):
@@ -13,6 +30,8 @@ class Video(models.Model):
     member_required = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)  # time created
     updated = models.DateTimeField(auto_now=True)  # last saved
+
+    objects = VideoManager()
 
     def short_title(self):
         return self.title[:3]
