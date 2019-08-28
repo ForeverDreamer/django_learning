@@ -11,16 +11,16 @@
     </div>
 
     <div class='row'>
-        {% for item in object.primary_category.all %}
+        {% for item in featured_courses %}
             <div class='col-sm-2'>
-                {% include 'courses/snippets/course_thumbnail_display.html' with course=item %}
+                {% include 'courses/snippets/course_featured_display.html' with course=item %}
             </div>
             {% cycle '' '' '</div><div class="row">' %}
         {% endfor %}
     </div>
-
+    
     <div class='row'>
-        {% for item in object.secondary_category.all %}
+        {% for item in courses %}
             <div class='col-md-4 col-sm-6'>
                 {% include 'courses/snippets/course_thumbnail_display.html' with course=item %}
             </div>
