@@ -10,4 +10,4 @@ __pycache__
 # data
 *.json
 *.jl
-static_cdn
+media_root
