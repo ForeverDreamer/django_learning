@@ -10,8 +10,23 @@
         </div>
     </div>
 
-    {{ object.primary_category.all }}
-    {{ object.secondary_category.all }}
+    <div class='row'>
+        {% for item in object.primary_category.all %}
+            <div class='col-sm-2'>
+                {% include 'courses/snippets/course_thumbnail_display.html' with course=item %}
+            </div>
+            {% cycle '' '' '</div><div class="row">' %}
+        {% endfor %}
+    </div>
+
+    <div class='row'>
+        {% for item in object.secondary_category.all %}
+            <div class='col-md-4 col-sm-6'>
+                {% include 'courses/snippets/course_thumbnail_display.html' with course=item %}
+            </div>
+            {% cycle '' '' '</div><div class="row">' %}
+        {% endfor %}
+    </div>
 
 </div>
 {% endblock %}
