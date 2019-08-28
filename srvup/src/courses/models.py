@@ -70,6 +70,7 @@ class Course(models.Model):
     slug = models.SlugField(blank=True, unique=True)
     # category = models.CharField(max_length=120, choices=POS_CHOICES, default='main')
     category = models.ForeignKey(Category, related_name='primary_category', null=True, blank=True, on_delete=models.SET_NULL)
+    secondary = models.ManyToManyField(Category, related_name='secondary_category', blank=True)
     # order = PositionField(collection='category')
     description = models.TextField()
     price = models.DecimalField(decimal_places=2, max_digits=100)
