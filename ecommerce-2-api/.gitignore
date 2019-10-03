@@ -1,0 +1,19 @@
+bin/
+include/
+lib/
+.DS_STORE
+.Python
+*.py[cod]
+# cache
+__pycache__
+*.pyc
+.ipynb_checkpoints
+.pytest_cache
+
+# pycharm proj conf
+.idea
+
+# data
+*.json
+*.jl
+
