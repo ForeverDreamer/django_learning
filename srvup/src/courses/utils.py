@@ -11,7 +11,7 @@ def unique_string_generator(size=5, chars=string.ascii_lowercase + string.digits
 
 def create_slug(instance, new_slug=None):
     if not new_slug:
-        slug = slugify(instance.title)
+        slug = slugify(instance.title, allow_unicode=True)
     else:
         slug = new_slug
     Klass = instance.__class__
