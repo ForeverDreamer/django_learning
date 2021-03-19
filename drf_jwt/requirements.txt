@@ -2,7 +2,7 @@ django==1.11
 django-cors-headers
 django-crispy-forms
 Pillow
-djangorestframework==3.6
+djangorestframework==3.11.2
 django-filter
 Markdown
 requests
