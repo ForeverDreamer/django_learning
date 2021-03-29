@@ -9,7 +9,7 @@ httpie==0.9.1
 Markdown==2.6
 oauthlib==0.7.2
 Pillow==2.7.0
-Pygments==2.0.2
+Pygments==2.7.4
 PyJWT==0.4.1
 python-openid==2.2.5
 python-social-auth==0.2.1
